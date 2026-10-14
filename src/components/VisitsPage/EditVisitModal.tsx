@@ -1,8 +1,11 @@
-import React from 'react'
+import type { Visit } from '../../app/models/visitTypes'
 
-type Props = {}
+type Props = {
+    visit: Visit | null,
+    onClose: () => void,
+}
 
-const EditVisitModal = (props: Props) => {
+const EditVisitModal = (_props: Props) => {
     return (
         <div>EditVisitModal</div>
     )

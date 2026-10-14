@@ -1,8 +1,8 @@
 import type { Visit, VisitStatus } from "../../app/models/visitTypes"
 import { useState } from "react"
-import { formatDate } from "../../features/formatDate"
+import { formatDate } from "../../utils/formatDate"
 import EditButton from "../Buttons/EditButton"
-import OkButton from "../Buttons/OkButton"
+import EditVisitModal from "./EditVisitModal"
 
 type Props = {
     visits?: Visit[]
@@ -19,8 +19,7 @@ const statusMap: Record<VisitStatus, string> = {
 }
 
 const VisitsTable = ({ visits = [], isLoading, isError }: Props) => {
-    const [editingVisit, setEditingVisit] = useState<Visit |null>(null)
-    const [editStep, setEditStep] = useState<"edit" | "ok">("edit")
+    const [editingVisit, setEditingVisit] = useState<Visit | null>(null)
 
     if (isLoading) return <div className="mt-4 rounded-xl border bg-4 p-4">Загрузка визитов...</div>
     if (isError) return <div className="mt-4 rounded-xl border bg-4 p-4 text-red-700">Не удалось загрузить визиты.</div>

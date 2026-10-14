@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { api } from './api'
+import { errorMiddleware } from './errorMiddleware'
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware, errorMiddleware),
 })
 
 setupListeners(store.dispatch)

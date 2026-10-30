@@ -5,13 +5,16 @@ import App from './App.tsx'
 import { Provider } from 'react-redux'
 import { store } from './app/store.ts'
 import { BrowserRouter } from 'react-router-dom'
+import { App as AntdApp } from 'antd'
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
-    <BrowserRouter>
-      <StrictMode>
-        <App />
-      </StrictMode>
-    </BrowserRouter>
+    <AntdApp>
+      <BrowserRouter>
+        <StrictMode>
+          <App />
+        </StrictMode>
+      </BrowserRouter>
+    </AntdApp>
   </Provider>
 )

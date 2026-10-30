@@ -4,9 +4,11 @@ import type { CreatePatientDto, Patient, UpdatePatientDto } from './models/patie
 
 export const patientApi = api.injectEndpoints({
   endpoints: (build) => ({
-
-    getPatients: build.query<Patient[], void>({
-      query: () => ENDPOINTS.PATIENTS,
+    getPatients: build.query<Patient[], { search: string }>({
+      query: ({ search }) => ({
+        url: ENDPOINTS.PATIENTS,
+        params: { search },
+      }),
       providesTags: (result) =>
         result
           ? [...result.map(({ id }) => ({ type: 'Patient' as const, id })), { type: 'Patient' as const, id: 'LIST' }]

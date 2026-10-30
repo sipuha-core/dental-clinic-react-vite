@@ -1,5 +1,11 @@
-const ServicePage = () => {
-  return <div>ServicePage</div>
+import ServicesTable from "../components/Services/ServicesTable"
+
+const ServicesPage = () => {
+  return (
+    <div>
+      <ServicesTable />
+    </div>
+  )
 }
 
-export default ServicePage
+export default ServicesPage

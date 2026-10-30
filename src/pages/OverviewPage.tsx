@@ -1,5 +1,5 @@
-import AppointmentsTable from "../components/OverviewPage/AppointmentsTable"
-import OverviewCard from "../components/OverviewPage/OverviewCard"
+import AppointmentsTable from "../components/Overview/AppointmentsTable"
+import OverviewCard from "../components/Overview/OverviewCard"
 
 const OverviewPage = () => {
     return (

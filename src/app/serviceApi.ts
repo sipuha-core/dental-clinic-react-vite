@@ -31,7 +31,7 @@ export const serviceApi = api.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { id }) => [{ type: 'Service', id }, { type: 'Service', id: 'LIST' }],
     }),
-    deleteService: build.mutation<{ success: boolean }, string>({
+    deleteService: build.mutation<{ message: boolean }, string>({
       query: (id) => ({
         url: withId(ENDPOINTS.SERVICES, id),
         method: 'DELETE',

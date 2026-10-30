@@ -23,7 +23,11 @@ function extractServerMessage(data: unknown): string | null {
 function mapHttpStatus(status: number): string {
     switch (status) {
         case 400: return 'Неверный запрос'
-        case 401: return 'Требуется авторизация'
+        case 401:
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+            window.location.href = '/login'
+            return 'Сессия истекла. Пожалуйста, авторизуйтесь снова'
         case 403: return 'Нет доступа'
         case 404: return 'Не найдено'
         case 409: return 'Конфликт данных'

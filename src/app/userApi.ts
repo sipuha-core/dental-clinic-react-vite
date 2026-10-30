@@ -1,10 +1,16 @@
 import { api } from './api'
 import ENDPOINTS, { withId } from './endpoints'
-import type { CreateUserDto, UpdateUserDto, User } from './models/userTypes'
+import type { CreateUserDto, LoginDto, LoginResponse, UpdateUserDto, User } from './models/userTypes'
 
 export const userApi = api.injectEndpoints({
   endpoints: (build) => ({
-
+    login: build.mutation<LoginResponse, LoginDto>({
+      query: (body) => ({
+        url: '/auth/login',
+        method: 'POST',
+        body,
+      }),
+    }),
     getUsers: build.query<User[], void>({
       query: () => ENDPOINTS.USERS,
       providesTags: (result) =>
@@ -47,6 +53,7 @@ export const userApi = api.injectEndpoints({
 })
 
 export const {
+  useLoginMutation,
   useGetUsersQuery,
   useGetUserByIdQuery,
   useCreateUserMutation,

@@ -12,7 +12,8 @@ import 'dayjs/locale/ru'
 
 dayjs.locale('ru')
 
-type CreateInput = z.infer<typeof createPatientSchema>
+type CreateFormInput = z.input<typeof createPatientSchema>
+type CreateFormOutput = z.output<typeof createPatientSchema>
 
 type Props = {
     isOpen: boolean
@@ -31,7 +32,7 @@ const PatientFormModal = ({ isOpen, patient, onClose }: Props) => {
         reset,
         control,
         formState: { errors },
-    } = useForm<CreateInput>({
+    } = useForm<CreateFormInput, unknown, CreateFormOutput>({
         resolver: zodResolver(createPatientSchema),
         defaultValues: {
             first_name: '',
@@ -48,7 +49,7 @@ const PatientFormModal = ({ isOpen, patient, onClose }: Props) => {
             reset({
                 first_name: patient.first_name,
                 last_name: patient.last_name,
-                phone: patient.phone!,
+                phone: patient.phone ?? '',
                 birth_date: patient.birth_date,
             })
         } else {
@@ -63,7 +64,7 @@ const PatientFormModal = ({ isOpen, patient, onClose }: Props) => {
 
     if (!isOpen) return null
 
-    const onSubmit = async (data: CreateInput) => {
+    const onSubmit = async (data: CreateFormOutput) => {
         try {
             if (patient) {
                 await updatePatient({ id: patient.id, data }).unwrap()

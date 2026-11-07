@@ -23,11 +23,7 @@ function extractServerMessage(data: unknown): string | null {
 function mapHttpStatus(status: number): string {
     switch (status) {
         case 400: return 'Неверный запрос'
-        case 401:
-            localStorage.removeItem('token')
-            localStorage.removeItem('user')
-            window.location.href = '/login'
-            return 'Сессия истекла. Пожалуйста, авторизуйтесь снова'
+        case 401: return 'Сессия истекла. Пожалуйста, авторизуйтесь снова'
         case 403: return 'Нет доступа'
         case 404: return 'Не найдено'
         case 409: return 'Конфликт данных'
@@ -38,8 +34,17 @@ function mapHttpStatus(status: number): string {
     }
 }
 
+function handleAuthError(status: number) {
+    if (status === 401) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        window.location.href = '/login'
+    }
+}
+
 function normalizeFetchError(error: FetchBaseQueryError): string | null {
     if (typeof error.status === 'number') {
+        handleAuthError(error.status)
         return extractServerMessage(error.data) ?? mapHttpStatus(error.status)
     }
     switch (error.status) {
@@ -69,6 +74,7 @@ function hasMessage(error: unknown): error is { message: string } {
         && typeof error.message === 'string'
     )
 }
+
 
 export function normalizeError(error: unknown): string | null {
     if (isFetchBaseQueryError(error)) return normalizeFetchError(error)

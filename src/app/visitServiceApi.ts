@@ -15,6 +15,10 @@ export const visitServiceApi = api.injectEndpoints({
       query: (id) => withId(ENDPOINTS.VISIT_SERVICES, id),
       providesTags: (_result, _error, id) => [{ type: 'VisitService', id }],
     }),
+    getVisitServicesByVisit: build.query<VisitService[], string>({
+      query: (visitId) => `${ENDPOINTS.VISIT_SERVICES}/by-visit/${visitId}`,
+      providesTags: [{ type: 'VisitService', id: 'LIST' }],
+    }),
     createVisitService: build.mutation<VisitService, CreateVisitServiceDto>({
       query: (body) => ({
         url: ENDPOINTS.VISIT_SERVICES,
@@ -31,7 +35,7 @@ export const visitServiceApi = api.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { id }) => [{ type: 'VisitService', id }, { type: 'VisitService', id: 'LIST' }],
     }),
-    deleteVisitService: build.mutation<{ success: boolean }, string>({
+    deleteVisitService: build.mutation<{ message: string }, string>({
       query: (id) => ({
         url: withId(ENDPOINTS.VISIT_SERVICES, id),
         method: 'DELETE',
@@ -44,6 +48,7 @@ export const visitServiceApi = api.injectEndpoints({
 export const {
   useGetVisitServicesQuery,
   useGetVisitServiceByIdQuery,
+  useGetVisitServicesByVisitQuery,
   useCreateVisitServiceMutation,
   useUpdateVisitServiceMutation,
   useDeleteVisitServiceMutation,

@@ -6,12 +6,27 @@ export const patientSchema = z.object({
     id: z.string().uuid(),
     first_name: requiredName,
     last_name: requiredName,
-    phone: z.string().trim()
-        .regex(/^\+?[0-9]{10,15}$/, 'Некорректный формат телефона')
-        .nullable()
-        .or(z.literal(''))
-        .transform(v => v === '' ? null : v),
-    birth_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Ожидается дд.мм.гггг').nullable(),
+    phone: z.string()
+        .trim()
+        .min(1, 'Поле обязательно. Введите номер телефона')
+        .regex(/^\+?[\d\s()-]{10,25}$/, 'Некорректный формат телефона')
+        .transform((val) => {
+            const cleaned = val.replace(/[^\d+]/g, '')
+            if (cleaned.startsWith('8') && cleaned.length === 11)
+                return '+7' + cleaned.slice(1)
+
+            if (cleaned.startsWith('7') && cleaned.length === 11)
+                return '+' + cleaned
+
+            return cleaned;
+        }).refine(
+            (val) => val.replace(/\D/g, '').length === 11,
+            'Номер телефона должен содержать 11 цифр'
+        ),
+    birth_date: z.string()
+        .regex(/^\d{4}-\d{2}-\d{2}$/, 'Ожидается дд.мм.гггг')
+        .refine(val => !isNaN(Date.parse(val)), 'Дата указана неверно')
+        .nullable(),
     created_at: z.string(),
     updated_at: z.string(),
 });

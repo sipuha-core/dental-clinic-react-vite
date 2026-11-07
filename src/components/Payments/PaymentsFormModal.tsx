@@ -110,7 +110,7 @@ const PaymentFormModal = ({ isOpen, payment, onClose }: Props) => {
                                     showSearch
                                     optionFilterProp="label"
                                     options={visitOptions}
-                                    placeholder="Визит"
+                                    placeholder="Запись"
                                     className="w-full"
                                 />
                             )} />

@@ -63,7 +63,7 @@ const PaymentsTable = () => {
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="bg-1">
-                            <th className="px-4 py-3 text-left">Визит</th>
+                            <th className="px-4 py-3 text-left">Запись</th>
                             <th className="px-4 py-3 text-left">Сумма</th>
                             <th className="px-4 py-3 text-left">Способ</th>
                             <th className="px-4 py-3 text-left">Статус</th>

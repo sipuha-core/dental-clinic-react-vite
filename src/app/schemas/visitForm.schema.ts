@@ -7,7 +7,8 @@ const dateTimeString = z.string().refine(
 )
 
 const visitServiceItemSchema = z.object({
-    service_id: z.string(),
+    id: z.string().optional(),
+    service_id: z.string().min(1, 'Выберите услугу'),
     quantity: z.number().int().positive('Количество должно быть больше 0'),
     price_at_time: z.number().nonnegative('Цена не может быть отрицательной'),
 })
@@ -26,7 +27,7 @@ export const createVisitFormSchema = base.refine(
     { message: 'Время окончания должно быть позже начала', path: ['end_time'] }
 )
 
-export const editVisitFormSchema = base.omit({ services: true }).refine(
+export const editVisitFormSchema = base.refine(
     (v) => new Date(v.start_time) <= new Date(v.end_time),
     { message: 'Время окончания должно быть позже начала', path: ['end_time'] }
 )

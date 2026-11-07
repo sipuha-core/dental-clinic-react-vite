@@ -31,7 +31,7 @@ export const visitApi = api.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { id }) => [{ type: 'Visit', id }, { type: 'Visit', id: 'LIST' }],
     }),
-    deleteVisit: build.mutation<{ success: boolean }, string>({
+    deleteVisit: build.mutation<{ message: string }, string>({
       query: (id) => ({
         url: withId(ENDPOINTS.VISITS, id),
         method: 'DELETE',

@@ -24,6 +24,12 @@ const statusOptions = [
     { value: 'no_show', label: 'Не явился' },
 ]
 
+const getArrayError = (err: unknown): string | undefined => {
+    if (!err || typeof err !== 'object') return undefined
+    const e = err as { message?: string; root?: { message?: string } }
+    return e.root?.message ?? e.message
+}
+
 const VisitCreateFromModal = ({ isOpen, onClose }: Props) => {
     const [createVisit, { isLoading: isCreatingVisit }] = useCreateVisitMutation()
     const [createVisitService, { isLoading: isCreatingServices }] = useCreateVisitServiceMutation()
@@ -204,11 +210,16 @@ const VisitCreateFromModal = ({ isOpen, onClose }: Props) => {
                     </div>
                     <button
                         type='button'
+                        disabled={isSaving}
                         onClick={() => append({ service_id: '', quantity: 1, price_at_time: 0 })}
-                        className="mb-2"
-                    >
-                        + добавить услугу
+                        className="mb-2 flex justify-center">
+                        <p className='p-1 hover:bg-neutral-200 w-[30%] rounded-md transition-colors'>
+                            + добавить услугу
+                        </p>
                     </button>
+                    {getArrayError(errors.services) && (
+                        <span className="text-red-500 text-sm">{getArrayError(errors.services)}</span>
+                    )}
                     {fields.map((field, index) => (
                         <div
                             key={field.id}

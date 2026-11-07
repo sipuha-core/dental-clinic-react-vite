@@ -97,9 +97,11 @@ const ServiceFormModal = ({ isOpen, service, onClose }: Props) => {
                     <input {...register('code')} placeholder="Код" className="border p-2 rounded" />
                     {errors.code && <span className="text-red-500 text-sm">{errors.code.message}</span>}
 
+                    <label className='text-xs ml-1'>Цена услуги</label>
                     <input {...register('price', { valueAsNumber: true })} placeholder="Цена" className="border p-2 rounded" />
                     {errors.price && <span className="text-red-500 text-sm">{errors.price.message}</span>}
 
+                    <label className='text-xs ml-1'>Длительность (в минутах)</label>
                     <input {...register('duration', { valueAsNumber: true })} placeholder="Длительность (в минутах)" className="border p-2 rounded" />
                     {errors.duration && <span className="text-red-500 text-sm">{errors.duration.message}</span>}
 

@@ -9,6 +9,7 @@ import { CloseCircleOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { DatePicker } from 'antd'
 import 'dayjs/locale/ru'
+import { formatPhoneInput } from '../../utils/formatPhone'
 
 dayjs.locale('ru')
 
@@ -31,6 +32,7 @@ const PatientFormModal = ({ isOpen, patient, onClose }: Props) => {
         handleSubmit,
         reset,
         control,
+        setValue,
         formState: { errors },
     } = useForm<CreateFormInput, unknown, CreateFormOutput>({
         resolver: zodResolver(createPatientSchema),
@@ -49,7 +51,7 @@ const PatientFormModal = ({ isOpen, patient, onClose }: Props) => {
             reset({
                 first_name: patient.first_name,
                 last_name: patient.last_name,
-                phone: patient.phone ?? '',
+                phone: formatPhoneInput(patient.phone),
                 birth_date: patient.birth_date,
             })
         } else {
@@ -71,7 +73,6 @@ const PatientFormModal = ({ isOpen, patient, onClose }: Props) => {
             } else {
                 await createPatient(data).unwrap()
             }
-            reset()
             onClose()
         } catch {
             // ошибка будет обработана через errorMiddleware
@@ -111,8 +112,12 @@ const PatientFormModal = ({ isOpen, patient, onClose }: Props) => {
 
                     <input
                         {...register('phone')}
-                        placeholder="Телефон"
+                        placeholder="+7 (___) ___-__-__"
                         className="border p-2 rounded"
+                        onChange={(e) => {
+                            const formatted = formatPhoneInput(e.target.value)
+                            setValue('phone', formatted, { shouldValidate: true })
+                        }}
                     />
                     {errors.phone && (
                         <span className="text-red-500 text-sm">{errors.phone.message}</span>
